@@ -1,0 +1,182 @@
+/* Calm / Peaceful Theme - Enhanced with Reset Button */
+
+/* General Styling */
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #F7FBF9 0%, #FFFDF8 100%);
+  margin: 0;
+  padding: 0;
+  color: #2f3b35;
+}
+
+.container {
+  width: 90%;
+  max-width: 700px;
+  background: #ffffff;
+  padding: 28px;
+  margin: 28px auto;
+  box-shadow: 0 8px 20px rgba(47,59,53,0.08);
+  border-radius: 14px;
+  border: 1px solid rgba(47,59,53,0.04);
+}
+
+/* Headings */
+.main-heading {
+  text-align: center;
+  font-size: 2.2rem;
+  color: #496f65;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.sub-heading {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #6f7b75;
+  margin-bottom: 25px;
+}
+
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+input, textarea, select {
+  padding: 12px;
+  border: 1.5px solid rgba(103,129,121,0.25);
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.22s;
+  background: #FBFFFD;
+  color: #2f3b35;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: #82A899;
+  box-shadow: 0 6px 18px rgba(130,168,153,0.12);
+  outline: none;
+}
+
+/* Button Layout */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Common Button Style */
+button {
+  flex: 1;
+  min-width: 120px;
+  background: #6CA89A;
+  color: #ffffff;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  box-shadow: 0 6px 14px rgba(108,168,154,0.12);
+}
+
+button:hover, button:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(108,168,154,0.14);
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #FFFFFF;
+  box-shadow: 0 6px 16px rgba(47,59,53,0.03);
+}
+
+th {
+  background: #EAF5F2;
+  color: #42584f;
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+}
+
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid rgba(47,59,53,0.04);
+  color: #34433d;
+}
+
+tr:nth-child(even) { background-color: #FBFFFD; }
+tr:nth-child(odd) { background-color: #FFFFFF; }
+
+/* Action Buttons (Edit, Delete, Save, Cancel, Reset) */
+td button {
+  margin: 2px;
+  padding: 7px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+/* Edit: warm sand */
+.edit-btn { background-color: #EFD9B9; color: #5a4b3d; }
+.edit-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(239,217,185,0.12); }
+
+/* Delete: soft rose */
+.delete-btn { background-color: #E7B8B7; color: #5a3a3a; }
+.delete-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(231,184,183,0.12); }
+
+/* Save: calm green */
+.save-btn { background-color: #7FB39F; color: white; }
+.save-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(127,179,159,0.12); }
+
+/* Cancel: soft gray */
+.cancel-btn { background-color: #D6D6D4; color: #444; }
+.cancel-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(214,214,212,0.12); }
+
+/* Reset: tranquil blue */
+.reset-btn {
+  background-color: #B4CFE0; /* gentle sky blue */
+  color: #2f4858;
+}
+.reset-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(180,207,224,0.12);
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .container {
+    width: 95%;
+    padding: 18px;
+  }
+  table, thead, tbody, th, td, tr { display: block; }
+  th { display: none; }
+  td {
+    position: relative;
+    padding-left: 50%;
+    text-align: right;
+  }
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 12px;
+    width: 45%;
+    font-weight: 600;
+    text-align: left;
+    color: #6f7b75;
+  }
+  .form-buttons { flex-direction: column; }
+}
