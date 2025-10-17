@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SecondMate — Secondhand Electronics Market</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading" class="screen active">
+  <div class="brand">
+    <div class="logo">SM</div>
+    <div class="title">
+      <h1>SecondMate</h1>
+      <small>Buy & Sell — Gently Used Electronics</small>   
+    </div>
+  </div>
+  <div class="spinner"></div>
+</div>
+
+<!-- Auth -->
+<div id="auth" class="screen">
+  <div class="auth-panel">
+    <h2>Welcome to SecondMate</h2>
+    <p class="muted">Sign in to start browsing secondhand electronics</p>
+
+    <div id="login-view" class="auth-forms">
+      <input id="login-id" placeholder="Mobile or Username" />
+      <input id="login-password" placeholder="Password" type="password" />
+      <button onclick="handleLogin()">Sign In</button>
+      <p class="muted">No account? <a href="#" onclick="showSignup()">Create one</a></p>
+    </div>
+
+    <div id="signup-view" class="auth-forms" style="display:none;">
+      <input id="signup-name" placeholder="Full name" />
+      <input id="signup-number" placeholder="Mobile number" />
+      <input id="signup-email" placeholder="Email (optional)" />
+      <input id="signup-password" placeholder="Password" type="password"/>
+      <button onclick="handleSignup()">Create Account</button>
+      <p class="muted">Already a member? <a href="#" onclick="showLogin()">Sign in</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app" class="screen" style="display:none;">
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="left">
+      <div class="logo-small">SM</div>
+      <div class="app-title">SecondMate</div>
+    </div>
+
+    <div class="right">
+      <div class="search-wrap">
+        <input id="search-input" placeholder="Search phones, laptops, TV..." oninput="renderProductList()" />
+        <select id="sort-select" onchange="renderProductList()">
+          <option value="relevance">Sort: Relevance</option>
+          <option value="price-asc">Price ↑</option>
+          <option value="price-desc">Price ↓</option>
+          <option value="condition">Condition</option>
+        </select>
+      </div>
+      <button class="cart-btn" onclick="showScreen('cart-screen')">
+        <i class="fas fa-shopping-cart"></i> (<span id="cart-count">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main class="container">
+    <section class="controls">
+      <div class="filter-row">
+        <button onclick="filterBy('all')" class="chip active" id="chip-all">All</button>
+        <button onclick="filterBy('phone')" class="chip" id="chip-phone">Phones</button>
+        <button onclick="filterBy('laptop')" class="chip" id="chip-laptop">Laptops</button>
+        <button onclick="filterBy('tv')" class="chip" id="chip-tv">TVs</button>
+        <button onclick="filterBy('camera')" class="chip" id="chip-camera">Cameras</button>
+      </div>
+    </section>
+
+    <section id="market" class="grid"></section>
+  </main>
+
+  <!-- Floating nav -->
+  <nav class="floating-nav">
+    <button onclick="showScreen('app')"><i class="fas fa-home"></i></button>
+    <button onclick="showScreen('app')"><i class="fas fa-store"></i></button>
+    <button onclick="showScreen('cart-screen')"><i class="fas fa-shopping-cart"></i></button>
+    <button onclick="logout()"><i class="fas fa-sign-out-alt"></i></button>
+  </nav>
+</div>
+
+<!-- Product Detail (modal-like screen) -->
+<div id="product-detail-screen" class="screen">
+  <div class="detail-header">
+    <button onclick="showScreen('app')"><i class="fas fa-arrow-left"></i></button>
+    <h2 id="detail-title">Product</h2>
+    <div style="width:40px"></div>
+  </div>
+  <div class="container detail-body" id="product-detail-container"></div>
+</div>
+
+<!-- Cart -->
+<div id="cart-screen" class="screen">
+  <div class="header-bar">
+    <button onclick="showScreen('app')"><i class="fas fa-arrow-left"></i></button>
+    <h2>Your Cart</h2>
+    <div style="width:40px"></div>
+  </div>
+  <div class="container">
+    <div id="cart-items-list"></div>
+    <div id="cart-summary" class="cart-summary"></div>
+    <button id="checkout-btn" onclick="navigateToCheckout()">Checkout</button>
+  </div>
+</div>
+
+<!-- Checkout -->
+<div id="checkout-screen" class="screen">
+  <div class="header-bar">
+    <button onclick="showScreen('cart-screen')"><i class="fas fa-arrow-left"></i></button>
+    <h2>Checkout</h2>
+    <div style="width:40px"></div>
+  </div>
+  <div class="container">
+    <form onsubmit="event.preventDefault(); placeOrder();">
+      <div class="checkout-section">
+        <input id="checkout-name" placeholder="Full name" required />
+        <input id="checkout-phone" placeholder="Phone number" required />
+        <input id="checkout-address" placeholder="Delivery Address" required />
+      </div>
+
+      <div class="checkout-section">
+        <h4>Order</h4>
+        <div>Subtotal: <span id="checkout-subtotal">Rs. 0.00</span></div>
+        <div>Shipping: <span>Rs. 150.00</span></div>
+        <h3>Total: <span id="checkout-total">Rs. 0.00</span></h3>
+      </div>
+
+      <button type="submit" class="primary">Pay & Place Order</button>
+    </form>
+  </div>
+</div>
+
+<!-- Confirmation -->
+<div id="confirmation-screen" class="screen">
+  <div class="confirm-icon"><i class="fas fa-check-circle"></i></div>
+  <h3>Order Confirmed</h3>
+  <p id="conf-msg">Thanks! Your order is on its way.</p>
+  <div class="container">
+    <p>Order ID: <span id="conf-order-id">#SM0000</span></p>
+    <p>Total: <span id="conf-total-amount">Rs. 0.00</span></p>
+  </div>
+  <button onclick="showScreen('app')">Continue Shopping</button>
+</div>
+
+<!-- Firebase (kept from original — still works but optional) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>
